@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useRegisterMutation } from "../features/auth/userApiSlice.js";
@@ -10,6 +10,7 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -17,8 +18,17 @@ const Register = () => {
   const [register] = useRegisterMutation();
   const { userInfo } = useSelector((state) => state.auth);
 
+  useEffect(() => {
+    if (userInfo && userInfo.role === "User") {
+      navigate("/");
+    } else if (userInfo && userInfo.role === "Admin") {
+      navigate("/tests/create-test");
+    }
+  }, [navigate, userInfo]);
+
   const submitHandler = async (e) => {
     e.preventDefault();
+    setLoading(true);
     if (password !== confirmPassword) {
       console.log("Passwords do not match");
     } else {
@@ -30,9 +40,16 @@ const Register = () => {
           password,
         }).unwrap();
         dispatch(setCredentials({ ...res }));
-        navigate("/");
+        if (userInfo.role === "User") {
+          navigate("/");
+        }
+        if (userInfo.role === "Admin") {
+          navigate("/tests/create-test");
+        }
       } catch (err) {
         console.log(err?.data?.message || err.error || err);
+      } finally {
+        setLoading(false);
       }
     }
   };
@@ -143,9 +160,10 @@ const Register = () => {
 
                   <button
                     type="submit"
+                    disabled={loading}
                     className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-1 focus:ring-gray-600"
                   >
-                    Register
+                    {loading ? "Loading..." : "Register"}
                   </button>
 
                   <div className="flex items-center">

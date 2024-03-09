@@ -7,6 +7,7 @@ import { setCredentials } from "../features/auth/authSlice.js";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [login] = useLoginMutation();
@@ -14,20 +15,29 @@ const Login = () => {
   const { userInfo } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    if (userInfo) {
+    if (userInfo && userInfo.role === "User") {
       navigate("/");
+    } else if (userInfo && userInfo.role === "Admin") {
+      navigate("/tests/create-test");
     }
   }, [navigate, userInfo]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     try {
       const res = await login({ email, password }).unwrap();
       dispatch(setCredentials({ ...res }));
-      navigate("/");
+      if (userInfo.role === "User") {
+        navigate("/");
+      }
+      if (userInfo.role === "Admin") {
+        navigate("/tests/create-test");
+      }
     } catch (err) {
       console.log(err?.data?.message || err.error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -86,9 +96,10 @@ const Login = () => {
 
                   <button
                     type="submit"
+                    disabled={loading}
                     className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-1 focus:ring-gray-600"
                   >
-                    Login
+                    {loading ? "Loading..." : "Login"}
                   </button>
 
                   <div className="flex items-center">

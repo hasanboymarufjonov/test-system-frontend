@@ -3,6 +3,7 @@ import userImg from "../assets/user.png";
 import { useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { useLogoutMutation } from "../features/auth/userApiSlice";
+import { logout } from "../features/auth/authSlice";
 
 const Navbar = () => {
   const { isOpen, toggleDropdown, dropdownRef } = useDropdownToggle();
@@ -16,7 +17,10 @@ const Navbar = () => {
       await logoutApiCall().unwrap();
       dispatch(logout());
       navigate("/login");
-    } catch (error) {}
+      console.log("clicked");
+    } catch (error) {
+      console.log(error);
+    }
 
     toggleDropdown();
   };
@@ -43,7 +47,7 @@ const Navbar = () => {
                     My Profile
                   </button>
                   <Link
-                    to="/logout"
+                    // to="/logout"
                     onClick={handleLogout}
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
                   >
