@@ -64,7 +64,7 @@ const Login = () => {
                         type="email"
                         id="email"
                         name="email"
-                        className="py-3 px-4 block w-full rounded-lg text-sm focus:border-blue-500 disabled:opacity-50 disabled:pointer-events-none bg-slate-900 border-gray-700 text-gray-400 focus:ring-gray-600"
+                        className="py-3 px-4 block w-full rounded-lg text-sm focus:border-blue-500 disabled:opacity-50 disabled:pointer-events-none bg-slate-900 border-gray-700 text-white focus:ring-gray-600"
                         required
                         placeholder="example@domain.com"
                         value={email}
@@ -85,7 +85,7 @@ const Login = () => {
                         type="password"
                         id="password"
                         name="password"
-                        className=" text-sm  py-3 px-4 block w-full  rounded-lg  focus:border-blue-500 disabled:opacity-50 disabled:pointer-events-none bg-slate-900 border-gray-700 text-gray-400 focus:ring-gray-600"
+                        className=" text-sm  py-3 px-4 block w-full  rounded-lg  focus:border-blue-500 disabled:opacity-50 disabled:pointer-events-none bg-slate-900 border-gray-700 text-white focus:ring-gray-600"
                         required
                         placeholder="••••••••"
                         value={password}
