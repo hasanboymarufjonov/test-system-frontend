@@ -83,7 +83,7 @@ const CreateTest = () => {
   };
 
   return (
-    <div className="  bg-slate-900 min-h-screen py-8 px-8 md:px-96">
+    <div className="  bg-slate-900 min-h-screen py-8 px-8 lg:px-96">
       <h1 className="text-3xl font-bold mb-4 text-gray-200">Create New Test</h1>
       <div className="mb-4">
         <label htmlFor="subject" className="block mb-2 text-gray-200">
