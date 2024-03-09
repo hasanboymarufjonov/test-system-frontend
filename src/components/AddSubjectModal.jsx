@@ -36,6 +36,7 @@ const AddSubjectModal = ({ onClose }) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(formData),
+      credentials: "include",
     })
       .then((response) => response.json())
       .then((data) => {

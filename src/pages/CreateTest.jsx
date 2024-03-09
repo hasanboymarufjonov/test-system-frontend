@@ -1,10 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import SubjectSelect from "../components/SubjectSelect.jsx";
 import AddSubjectModal from "../components/AddSubjectModal.jsx";
 import BASE_URL from "../utils/config.js";
 
 const CreateTest = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const navigate = useNavigate();
+
+  const { userInfo } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (userInfo && userInfo.role === "User") {
+      navigate("/");
+    }
+  }, [navigate, userInfo]);
+
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -74,9 +87,11 @@ const CreateTest = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(testData),
+        credentials: "include",
       });
       const data = await response.json();
       console.log("Test created successfully:", data);
+      window.location.reload();
     } catch (error) {
       console.error("Error creating test:", error);
     }
