@@ -4,9 +4,12 @@ import { useSelector } from "react-redux";
 import SubjectSelect from "../components/SubjectSelect.jsx";
 import AddSubjectModal from "../components/AddSubjectModal.jsx";
 import BASE_URL from "../utils/config.js";
+import TestSuccessModal from "../components/TestSuccessModal.jsx";
 
 const CreateTest = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const navigate = useNavigate();
 
@@ -80,6 +83,7 @@ const CreateTest = () => {
   };
 
   const submitTest = async () => {
+    setLoading(true);
     try {
       const response = await fetch(`${BASE_URL}/api/tests`, {
         method: "POST",
@@ -90,11 +94,21 @@ const CreateTest = () => {
         credentials: "include",
       });
       const data = await response.json();
-      console.log("Test created successfully:", data);
-      window.location.reload();
+      // console.log("Test created successfully:", data);
+      // window.location.reload();
+      setShowSuccessModal(true);
+      setLoading(false);
+      setTestData({
+        subject: "",
+        questions: [initialQuestion],
+      });
     } catch (error) {
       console.error("Error creating test:", error);
     }
+  };
+
+  const closeSuccessModal = () => {
+    setShowSuccessModal(false);
   };
 
   return (
@@ -171,10 +185,12 @@ const CreateTest = () => {
       </div>
       <button
         onClick={submitTest}
+        disabled={loading}
         className="bg-blue-900 text-gray-200 px-4 py-2 rounded hover:bg-blue-800 w-full"
       >
-        Submit Test
+        {loading ? "Loading..." : "Submit Test"}
       </button>
+      {showSuccessModal && <TestSuccessModal onClose={closeSuccessModal} />}
     </div>
   );
 };
