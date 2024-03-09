@@ -89,6 +89,7 @@ const AddSubjectModal = ({ onClose }) => {
               value={formData.name}
               onChange={handleChange}
               className="w-full px-4 py-2 border border-gray-700 rounded mb-2 bg-slate-900 text-gray-300"
+              required
             />
           </div>
           <div className="mb-4">

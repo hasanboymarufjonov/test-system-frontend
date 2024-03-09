@@ -1,5 +1,3 @@
-import React from "react";
-
 const TestScoreModal = ({ score, onClose }) => {
   return (
     <div className="fixed z-10 inset-0 overflow-y-auto flex items-center justify-center">

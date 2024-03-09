@@ -117,6 +117,7 @@ const CreateTest = () => {
               value={question.text}
               onChange={(e) => handleChange(e, qIndex, "text")}
               className="w-full px-4 py-2 border border-gray-300 rounded mb-2 bg-gray-200"
+              required
             />
             {question.answers.map((answer, aIndex) => (
               <div key={aIndex} className="flex items-center mb-2">
@@ -126,6 +127,7 @@ const CreateTest = () => {
                   onChange={(e) => handleAnswerChange(e, qIndex, aIndex)}
                   className="w-full px-4 py-2 border border-gray-300 rounded mr-2 bg-gray-200"
                   placeholder={`Answer ${aIndex + 1}`}
+                  required
                 />
                 <input
                   type="checkbox"
